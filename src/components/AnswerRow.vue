@@ -1,13 +1,19 @@
 <script>
 export default {
   name: "QuestionRow",
+  props: {
+    answer: {
+      type: Object,
+      default: null,
+    },
+  },
 };
 </script>
 
 <template>
-  <div class="q-row-wrapper">
-    <input type="radio" id="huey" name="drone" value="huey" />
-    <label for="huey">Huey</label>
+  <div v-if="answer" class="a-row-wrapper">
+    <input type="radio" :id=answer.id v-model="picked" />
+    <label for=id>{{answer.text}}</label>
   </div>
 </template>
 

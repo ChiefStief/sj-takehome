@@ -4,14 +4,17 @@ import QuestionJSON from './questions.json';
 </script>
 
 <template>
-  <div class="app-wrapper">
-<!--double check this css-->
+  <body v-if="QuestionJSON" class="app-wrapper">
     <header class="app-header">
       Quiz Application
     </header>
-    <h1>Quiz 1 - HTML / CSS / JS Practice</h1>
-    <QuestionPanel v-for="question of QuestionJSON.questions" :id="question.id" :question="question" />
-  </div>
+    <div class="workspace-wrapper">
+<!--double check this css-->
+
+      <h1>Quiz 1 - HTML / CSS / JS Practice</h1>
+      <QuestionPanel v-for="question of QuestionJSON.questions" :id="question.id" :question="question" />
+    </div>
+  </body>
 </template>
 
 <style scoped>
@@ -22,5 +25,8 @@ import QuestionJSON from './questions.json';
   .app-header{
     background-color: #7C0200;
     color: white;
+  }
+  .workspace-wrapper{
+    padding: 0 10px 0 10px;
   }
 </style>
