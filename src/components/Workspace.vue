@@ -21,7 +21,7 @@ export default {
     },
   },
   methods: {
-    updateAnswers ({questionId, answerId} ) {
+    updateAnswers ({questionId, answerId}) {
       this.answers[questionId] = answerId
     },
   },
@@ -36,7 +36,7 @@ export default {
     <QuestionPanel v-for="question of questions" :question="question" @update-answers="updateAnswers"/>
     <div class="submission-blk">
       <button type="button" class="submit-btn">Submit</button>
-      <span v-if="isUnanswered">hnhhhb</span>
+      <div v-if="isUnanswered" class="unanswered-block">Answer all questions before submitting. Unanswered questions are displayed in yellow.</div>
     </div>
   </div>
 
@@ -54,5 +54,10 @@ export default {
 }
 .submission-blk{
   text-align: center;
+}
+.unanswered-block{
+  text-align: center;
+  color: red;
+  padding-top: 10px;
 }
 </style>

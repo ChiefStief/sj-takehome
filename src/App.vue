@@ -14,7 +14,7 @@ import Workspace from "./components/Workspace.vue"
 
 <style scoped>
   .app-wrapper{
-    background-color: lightgray;
+    background-color: #F7F7F7;
   }
 
   .app-header{
