@@ -23,8 +23,8 @@ export default {
       {{`${question.id}. ${question.text}`}}
     </div>
     <div v-for="answer of question.answers" class="a-row-wrapper">
-      <input type="radio" :id=answer.id :value=answer.id v-model="picked" />
-      <label :for="id">{{answer.text}}</label>
+      <input type="radio" :id=answer.id :value=answer.id v-model="picked" @click="$emit('update-answers', {questionId:question.id, answerId:answer.id})" />
+      <label :for="answer.id">{{answer.text}}</label>
     </div>
 <!--    <AnswerRow v-for="answer of question.answers" :answer="answer"/>-->
   </div>
