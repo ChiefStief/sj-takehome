@@ -13,17 +13,29 @@ export default {
   data () {
     return {
       answers: { },
+      isSubmitted: false
     }
   },
   computed: {
-    isUnanswered () {
+    areUnanswered() {
       return Object.entries(this.answers).length < this.questions.length
     },
+    numRight() {
+      return this.questions.filter(question=>{
+        return question.correctAnswerId === this.answers[question.id]
+      }).length
+    },
+    percentRight() {
+      return Math.round(this.numRight*100/this.questions.length)
+    }
   },
   methods: {
-    updateAnswers ({questionId, answerId}) {
+    updateAnswers({questionId, answerId}) {
       this.answers[questionId] = answerId
     },
+    onSubmit() {
+      this.isSubmitted = true
+    }
   },
 }
 </script>
@@ -32,11 +44,15 @@ export default {
   <div class="workspace-wrapper">
     <!--double check this css-->
     <h1>Quiz 1 - HTML / CSS / JS Practice</h1>
-    {{answers}}
-    <QuestionPanel v-for="question of questions" :question="question" @update-answers="updateAnswers"/>
+    <div v-if="isSubmitted" class="results-wrapper">
+      <div class="results-title">Results</div>
+      <div class="results-text">You got {{numRight}}/{{questions.length}}</div>
+      <div class="results-percent">{{percentRight}}%</div>
+    </div>
+    <QuestionPanel v-for="question of questions" :is-submitted="isSubmitted" :question="question" :answer-given="answers[question.id] || null" @update-answers="updateAnswers"/>
     <div class="submission-blk">
-      <button type="button" class="submit-btn">Submit</button>
-      <div v-if="isUnanswered" class="unanswered-block">Answer all questions before submitting. Unanswered questions are displayed in yellow.</div>
+      <button type="button" class="submit-btn" @click="onSubmit">Submit</button>
+      <div v-if="areUnanswered" class="unanswered-block">Answer all questions before submitting. Unanswered questions are displayed in yellow.</div>
     </div>
   </div>
 
@@ -59,5 +75,17 @@ export default {
   text-align: center;
   color: red;
   padding-top: 10px;
+}
+.results-title{
+  text-decoration: underline;
+}
+
+.results-percent{
+  color: red;
+  font-weight: bolder;
+}
+
+.results-wrapper{
+  text-align: center;
 }
 </style>
