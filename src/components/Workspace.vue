@@ -75,6 +75,7 @@ export default {
   border-radius: 4px;
   color: white;
   padding: 10px;
+  border: 2px solid black;
 }
 .submission-blk{
   text-align: center;
