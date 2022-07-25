@@ -49,7 +49,6 @@ export default {
 
 <template>
   <div class="workspace-wrapper">
-    <!--double check this css-->
     <div class="quiz-header">Quiz 1 - HTML / CSS / JS Practice</div>
     <div v-if="isSubmitted" class="results-wrapper">
       <div class="results-title">Results</div>

@@ -27,37 +27,34 @@ export default {
     isWrong () {
       return this.picked && this.isSubmitted && this.question.correctAnswerId !== this.picked
     },
-    // feedbackColor () {
-    //   if (isSubmissionAttempted && picked === null) {
-    //     return 'yellow'
-    //   }
-    //   return this.isCorrect ? 'green' : 'red'
-    // }
-    // TODO: change color stuff to color to use feeback color
+    feedbackColor () {
+      if (this.isSubmissionAttempted && this.picked === null) {
+        return 'yellow'
+      } else if (this.isSubmitted) {
+        return this.isCorrect ? '#07A006' : 'red'
+      } else {
+        return null
+      }
+    },
   }
 };
 </script>
 
 <template>
-  <div v-if="question" class="panel-wrapper" :class="{ 'inc-border': isSubmissionAttempted && picked === null, 'wrong-border': isWrong, 'correct-border': isCorrect }">
+    <div v-if="question" class="panel-wrapper" :style="isSubmissionAttempted || isSubmitted ? `border: 2px solid ${feedbackColor} ;`:''">
     <div>
       {{`${question.id}. ${question.text}`}}
     </div>
     <div class="answers-wrapper">
       <div v-for="answer of question.answers" class="a-row-wrapper" :class="{'correct-ans': isWrong && question.correctAnswerId === answer.id}">
         <div class="rad-btn">
-          <input  type="radio" :id=answer.id :value=answer.id v-model="picked" @click="$emit('update-answers', {questionId:question.id, answerId:answer.id})" />
+          <input  type="radio" :id="question.id+answer.id" :value=answer.id v-model="picked" @click="$emit('update-answers', {questionId:question.id, answerId:answer.id})" />
         </div>
-
-          <label class="answer-text" :for="answer.id">{{answer.text}}</label>
-
+          <label class="answer-text" :for="question.id+answer.id">{{answer.text}}</label>
       </div>
     </div>
-    <div class="wrong-msg feedback-msg" v-if="isWrong">
-      Wrong
-    </div>
-    <div class="correct-msg feedback-msg" v-if="isCorrect">
-      Correct
+    <div class="feedback-msg" :style="`color:${feedbackColor}`" v-if="isSubmitted">
+      {{isCorrect ? 'Correct' : 'Wrong'}}
     </div>
   </div>
 </template>
@@ -72,7 +69,7 @@ export default {
   }
 
   .a-row-wrapper{
-    padding: 7px 0 5px 7px;
+    padding: 7px 0 5px 10px;
     max-width: 75%;
     display: flex;
   }
@@ -82,31 +79,13 @@ export default {
   .answer-text {
     padding-left: 10px;
   }
-  .inc-border{
-    border: 2px solid yellow;
-  }
-
-  .wrong-border{
-    border: 2px solid red;
-  }
-
-  .correct-border{
-    border: 2px solid green;
-  }
-  .wrong-msg{
-    color: red;
-  }
-
-  .correct-msg{
-    color: green;
-  }
   .feedback-msg {
     position: absolute;
     bottom: 10px;
     right: 10px;
   }
   .correct-ans {
-    background-color: green;
+    background-color: #07A006;
     border-radius: 10px;
     color: white;
     border: 2px solid darkgreen;
@@ -117,7 +96,7 @@ export default {
   @media (max-width: 1180px) {
     .answers-wrapper{
       padding-left: 0;
-      margin-left: -7px;
+      margin-left: -10px;
     }
   }
 </style>
