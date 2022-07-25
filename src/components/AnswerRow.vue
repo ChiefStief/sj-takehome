@@ -12,13 +12,12 @@ export default {
 
 <template>
   <div v-if="answer" class="a-row-wrapper">
-    <input type="radio" :id=answer.id v-model="picked" />
-    <label for=id>{{answer.text}}</label>
+    <input type="radio" :id="answer.id" v-model="picked" />
+    <label for="id">{{ answer.text }}</label>
   </div>
 </template>
 
 <style scoped>
-  .q-row-wrapper{
-
-  }
+.q-row-wrapper {
+}
 </style>
