@@ -13,6 +13,7 @@ export default {
   data () {
     return {
       answers: { },
+      isSubmissionAttempted: false,
       isSubmitted: false
     }
   },
@@ -31,10 +32,16 @@ export default {
   },
   methods: {
     updateAnswers({questionId, answerId}) {
+      this.isSubmissionAttempted = false
+      this.isSubmitted = false
       this.answers[questionId] = answerId
     },
     onSubmit() {
-      this.isSubmitted = true
+      if (this.areUnanswered) {
+        this.isSubmissionAttempted = true
+      } else {
+        this.isSubmitted = true
+      }
     }
   },
 }
@@ -43,16 +50,16 @@ export default {
 <template>
   <div class="workspace-wrapper">
     <!--double check this css-->
-    <h1>Quiz 1 - HTML / CSS / JS Practice</h1>
+    <div class="quiz-header">Quiz 1 - HTML / CSS / JS Practice</div>
     <div v-if="isSubmitted" class="results-wrapper">
       <div class="results-title">Results</div>
-      <div class="results-text">You got {{numRight}}/{{questions.length}}</div>
+      <div class="results-text">You got {{numRight}}/{{questions.length}} questions correct</div>
       <div class="results-percent">{{percentRight}}%</div>
     </div>
-    <QuestionPanel v-for="question of questions" :is-submitted="isSubmitted" :question="question" :answer-given="answers[question.id] || null" @update-answers="updateAnswers"/>
+    <QuestionPanel v-for="question of questions" :is-submitted="isSubmitted" :is-submission-attempted="isSubmissionAttempted" :question="question" :answer-given="answers[question.id] || null" @update-answers="updateAnswers"/>
     <div class="submission-blk">
       <button type="button" class="submit-btn" @click="onSubmit">Submit</button>
-      <div v-if="areUnanswered" class="unanswered-block">Answer all questions before submitting. Unanswered questions are displayed in yellow.</div>
+      <div v-if="isSubmissionAttempted" class="unanswered-block">Answer all questions before submitting. Unanswered questions are displayed in yellow.</div>
     </div>
   </div>
 
@@ -60,7 +67,9 @@ export default {
 
 <style scoped>
 .workspace-wrapper{
-  padding: 0 10px 30px 10px;
+  padding: 40px 10px 30px 10px;
+  max-width: 75%;
+  margin: auto;
 }
 .submit-btn{
   background-color: green;
@@ -78,6 +87,7 @@ export default {
 }
 .results-title{
   text-decoration: underline;
+  padding-bottom: 10px;
 }
 
 .results-percent{
@@ -87,5 +97,29 @@ export default {
 
 .results-wrapper{
   text-align: center;
+}
+
+.quiz-header {
+  font-size: 2rem;
+}
+@media (max-width: 1180px) {
+  .workspace-wrapper {
+    max-width: 90%;
+    margin-left: 0;
+    padding-left: 20px;
+  }
+  .quiz-header{
+    padding-left: 30px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .workspace-wrapper {
+    max-width: 100%;
+  }
+  .quiz-header{
+    padding-left: 0px;
+  }
 }
 </style>

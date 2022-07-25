@@ -20,5 +20,10 @@ import Workspace from "./components/Workspace.vue"
   .app-header{
     background-color: #7C0200;
     color: white;
+    padding: 5px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
   }
 </style>
